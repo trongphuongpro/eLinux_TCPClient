@@ -11,6 +11,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <string>
 
@@ -33,8 +34,9 @@ public:
 
 private:
 	int socketfd;
-	struct sockaddr_in serverAddress;
-	struct hostent *server;
+	struct sockaddr_in server;
+	struct addrinfo hints;
+	struct addrinfo *result, *rp;
 	std::string serverName;
 	int port;
 	bool __isConnected;

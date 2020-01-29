@@ -7,12 +7,13 @@ using namespace eLinux;
 
 
 int main(int argc, const char** argv) {
-	string msg = "GET / HTTP/1.1\r\n + Host: " + string(argv[1]) + "\r\n\r\n";
-	string data;
+	string msg;
 
 	TCPClient client;
-	client.connect(argv[1], atoi(argv[2]));
+	client.connect("192.168.7.2", 1234);
+
+	msg = "Hello, I'm client";
 	client.send(msg);
-	client.receive(data, 1024);
-	printf("Data: %s", data.c_str());
+	client.receive(msg, 1024);
+	printf(">> Receive: %s\n", msg.c_str());
 }
