@@ -39,6 +39,9 @@ TCPClient::~TCPClient() {
 
 
 int TCPClient::connect() {
+	struct sockaddr_in server;
+	struct addrinfo hints;
+	struct addrinfo *result;
 
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_canonname = NULL;
@@ -48,14 +51,17 @@ int TCPClient::connect() {
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_NUMERICSERV;
 
+	/**
+	 * Get server's info
+	 */
 	if (getaddrinfo(this->serverName.c_str(),
 					to_string(this->port).c_str(),
-					&this->hints, &this->result) != 0) {
+					&hints, &result) != 0) {
 		perror("TCPClient: no such host");
 		return -1;
 	}
 
-	freeaddrinfo(this->result);
+	freeaddrinfo(result);
 
 	this->socketfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (this->socketfd < 0) {
@@ -63,17 +69,17 @@ int TCPClient::connect() {
 		return -1;
 	}
 
-	memset(&this->server, 0, sizeof(this->server));
-	this->server.sin_family = AF_INET;
-	this->server.sin_port = htons(this->port);
+	memset(&server, 0, sizeof(server));
+	server.sin_family = AF_INET;
+	server.sin_port = htons(this->port);
 
-	if (inet_pton(AF_INET, this->serverName.c_str(), &this->server.sin_addr) <= 0) {
+	if (inet_pton(AF_INET, this->serverName.c_str(), &server.sin_addr) <= 0) {
 		perror("TCPClient: Failed for parsing server address");
 		return -1;
 	}
 
-	if (::connect(this->socketfd, (struct sockaddr*)&this->server,
-					sizeof(this->server)) < 0) {
+	if (::connect(this->socketfd, (struct sockaddr*)&server,
+					sizeof(struct sockaddr)) < 0) {
 		perror("TCPClient: error connecting to the server");
 		return -1;
 	}
@@ -91,10 +97,9 @@ int TCPClient::connect(string server, int port) {
 }
 
 
-int TCPClient::disconnect() {
+void TCPClient::disconnect() {
 	this->__isConnected = false;
 	::close(this->socketfd);
-	return 0;
 }
 
 
@@ -127,4 +132,4 @@ int TCPClient::receive(string& msg, uint16_t size){
     return 0;
 }
 
-}
+} /* namespace eLinux */

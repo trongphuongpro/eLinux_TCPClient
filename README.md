@@ -1,0 +1,3 @@
+### Wrapper class for TCP/IPv4 Socket Client.
+
+[DOCUMENTATION](https://trongphuongpro.github.io/eLinux_TCPClient/classeLinux_1_1TCPClient.html)
