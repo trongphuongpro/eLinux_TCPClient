@@ -115,7 +115,7 @@ int TCPClient::send(string message) {
        perror("TCPClient: error writing to socket");
        return -1;
     }
-    return 0;
+    return n;
 }
 
 
@@ -128,7 +128,7 @@ int TCPClient::receive(string& msg, uint16_t size){
     }
 
     msg = string(buffer);
-    return 0;
+    return n;
 }
 
 } /* namespace eLinux */
