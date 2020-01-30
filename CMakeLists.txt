@@ -10,7 +10,7 @@ set(CMAKE_C_COMPILER arm-linux-gcc)
 
 set(TARGET tcpclient)
 
-add_executable(${TARGET} src/tcpclient.cpp)
+add_library(${TARGET} STATIC src/tcpclient.cpp)
 target_include_directories(${TARGET} PUBLIC include)
 
 #-----------------------------------------------------------------------------#
