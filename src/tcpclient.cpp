@@ -1,6 +1,6 @@
 /**
  * @file tcpclient.cpp
- * @brief 
+ * @brief Wrapper class for Client-side of TCP/IPv4 socket connection.
  * @author Nguyen Trong Phuong
  * @date 2020 Jan 28
  */
@@ -9,7 +9,6 @@
 #include "tcpclient.h"
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
 #include <unistd.h>
 
 
