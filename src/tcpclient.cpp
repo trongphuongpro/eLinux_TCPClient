@@ -78,7 +78,7 @@ int TCPClient::connect() {
 	}
 
 	if (::connect(this->socketfd, (struct sockaddr*)&server,
-					sizeof(struct sockaddr)) < 0) {
+					sizeof(struct sockaddr_in)) < 0) {
 		perror("TCPClient: error connecting to the server");
 		return -1;
 	}
